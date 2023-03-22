@@ -6,19 +6,24 @@ rust-version:
 	rustup --version			#rust toolchain manager
 	clippy-driver --version		#rust linter
 
+install:
+	sudo install cargo-lambda
+
 format:
 	cargo fmt --quiet
 
 lint:
 	cargo clippy --quiet
-
-test:
-	cargo test --quiet
-
 run:
-	cargo run
+	cargo run 
 
 release:
-	cargo build --release
+	cargo lambda build --release
+
+release-arm:
+	cargo lambda build --release --arm64 --output-format zip
+
+deploy:
+	cargo lambda deploy
 
 all: format lint test run

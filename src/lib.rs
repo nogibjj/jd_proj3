@@ -1,5 +1,4 @@
 use photon_rs::multiple::watermark;
-use photon_rs::native::{open_image, save_image};
 use photon_rs::transform::{crop, resize};
 use photon_rs::PhotonImage;
 
@@ -43,12 +42,8 @@ pub fn watermark_image(image: PhotonImage, water_mark: PhotonImage) -> PhotonIma
     image
 }
 
-pub fn process_image(file_name: String) {
-    // concat the file name to the path
-    let file_path = format!("pics/{}", file_name);
-
-    let img = open_image(&file_path).expect("Image file should open");
-    let water_mark = open_image("pics/watermark.png").expect("Watermark file should open");
+pub fn process_image(water_mark: PhotonImage, img: PhotonImage) -> PhotonImage {
+    // resize watermark
     let resized_watermark = resize(
         &water_mark,
         50,
@@ -64,8 +59,5 @@ pub fn process_image(file_name: String) {
         400,
         photon_rs::transform::SamplingFilter::Nearest,
     );
-    let final_image = watermark_image(resized, resized_watermark);
-
-    let new_file_path = format!("pics/watermarked_{}", file_name);
-    save_image(final_image, &new_file_path).expect("Save failed");
+    watermark_image(resized, resized_watermark)
 }
