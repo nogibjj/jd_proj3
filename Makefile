@@ -12,8 +12,27 @@ install:
 format:
 	cargo fmt --quiet
 
+format-check:
+	@rustup component add rustfmt 2> /dev/null
+	@cargo fmt --all -- --check
+
+build-release:
+	@echo "Building release version for platfomr $(shell uname -s)"
+	cargo build --release 
+	
 lint:
 	cargo clippy --quiet
+
+test:
+	cargo test --quiet
+
+lint:
+	cargo clippy --quiet
+
+release:
+	cargo build --release
+
+	
 run:
 	cargo run 
 
